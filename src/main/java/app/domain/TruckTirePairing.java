@@ -20,6 +20,15 @@ public class TruckTirePairing {
     @Column(name="Truck_Mileage_At_Install")
     private Integer truckMileageAtInstall;
 
+    public TruckTirePairing(){};
+    public TruckTirePairing(Integer truckTypePairingId, Integer truckId, Integer tireModelId, Integer tirePositionIndex, Integer truckMileageAtInstall) {
+        this.truckTypePairingId = truckTypePairingId;
+        this.truckId = truckId;
+        this.tireModelId = tireModelId;
+        this.tirePositionIndex = tirePositionIndex;
+        this.truckMileageAtInstall = truckMileageAtInstall;
+    }
+
     public Integer getTruckTypePairingId() {
         return truckTypePairingId;
     }

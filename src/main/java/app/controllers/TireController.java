@@ -3,6 +3,7 @@ import app.domain.*;
 import app.models.EmployeeDto;
 import app.models.TireChangeDto;
 import app.service.ReadService;
+import app.service.WriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,12 +13,15 @@ import org.springframework.web.bind.annotation.*;
 public class TireController{
 
     private ReadService readService;
+    private WriteService writeService;
 
     @Autowired
     public TireController(
-            ReadService readService
+            ReadService readService,
+            WriteService writeService
     ) {
         this.readService = readService;
+        this.writeService = writeService;
     }
 
     @GetMapping("/login/{username}/{password}")
@@ -43,7 +47,7 @@ public class TireController{
     @PostMapping("tire/changeTire")
     public @ResponseBody String addTireChange(@RequestHeader(value="Content-Type") String contentType,
                                               @RequestBody TireChangeDto tireChangeDto) {
-        System.out.println("tireChangeDto: " + tireChangeDto);
-        return "success";
+        System.out.println("The process has begun");
+        return writeService.changeTire(tireChangeDto);
     }
 }

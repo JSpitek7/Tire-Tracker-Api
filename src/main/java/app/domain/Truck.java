@@ -16,7 +16,7 @@ public class Truck {
     @Column(name="Truck_Model_ID")
     private Integer truckModelId;
     @Column(name="Truck_VIN")
-    private String TruckVin;
+    private String truckVin;
 
     public Integer getTruckId() {
         return truckId;
@@ -31,6 +31,6 @@ public class Truck {
     }
 
     public String getTruckVin() {
-        return TruckVin;
+        return truckVin;
     }
 }
