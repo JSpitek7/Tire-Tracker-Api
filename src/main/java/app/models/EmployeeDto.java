@@ -8,6 +8,7 @@ public class EmployeeDto {
     private String empName;
     private String empPhone;
     private String empEmail;
+    private String empType;
 
     public Integer getEmpId() {
         return empId;
@@ -25,10 +26,15 @@ public class EmployeeDto {
         return empEmail;
     }
 
-    public EmployeeDto(Integer empId, String empName, String empPhone, String empEmail) {
+    public String getEmpType() {
+        return empType;
+    }
+
+    public EmployeeDto(Integer empId, String empName, String empPhone, String empEmail, String empType) {
         this.empId = empId;
         this.empName = empName;
         this.empPhone = empPhone;
         this.empEmail = empEmail;
+        this.empType = empType;
     }
 }

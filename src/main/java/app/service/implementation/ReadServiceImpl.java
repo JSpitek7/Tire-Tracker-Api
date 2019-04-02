@@ -62,8 +62,11 @@ public class ReadServiceImpl implements ReadService {
     public EmployeeDto login(String username, String password) {
         Optional<Employee> employeeRecord = employeeRepository.findByEmpUsernameAndEmpPassword(username, password);
         Employee employee = employeeRecord.get();
+        Optional<EmployeeType> empTypeRecord =  employeeTypeRepository.findByEmpTypeId(employee.getEmpTypeId());
+        EmployeeType empType = empTypeRecord.get();
         String name = employee.getEmpFName() + " " + employee.getEmpLName();
-        EmployeeDto employeeDto = new EmployeeDto(employee.getEmpId(),name,employee.getEmpPhoneNum(), employee.getEmpEmail());
+        EmployeeDto employeeDto = new EmployeeDto(employee.getEmpId(),name,employee.getEmpPhoneNum(),
+                employee.getEmpEmail(), empType.getEmpTypeTitle());
         return employeeDto;
     }
 
