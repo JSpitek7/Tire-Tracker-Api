@@ -47,7 +47,13 @@ public class TireController{
     @PostMapping("tire/changeTire")
     public @ResponseBody String addTireChange(@RequestHeader(value="Content-Type") String contentType,
                                               @RequestBody TireChangeDto tireChangeDto) {
-        System.out.println("The process has begun");
         return writeService.changeTire(tireChangeDto);
+    }
+
+    @PostMapping("truck/add")
+    public @ResponseBody String addTruck(@RequestHeader(value="Content-Type") String contentType,
+                                         @RequestBody TireChangeDto tireChangeDto) {
+
+        return "success";
     }
 }

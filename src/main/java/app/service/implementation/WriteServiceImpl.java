@@ -24,15 +24,12 @@ public class WriteServiceImpl implements WriteService {
     public String changeTire(TireChangeDto tireChangeDto) {
         Truck truck = truckRepository.findByTruckVin(tireChangeDto.getVin());
         Integer count = truckTirePairingRepository.findAll().size();
-        for (Integer i = 1; i <= 16; i++) {
-            Integer pairingId = i + count;
-            TruckTirePairing newRecord = new TruckTirePairing(pairingId,
-                    truck.getTruckId(),
-                    tireChangeDto.getModelId(),
-                    i,
-                    tireChangeDto.getMileage());
-            truckTirePairingRepository.save(newRecord);
-        }
+        TruckTirePairing newRecord = new TruckTirePairing(count + 1,
+                truck.getTruckId(),
+                tireChangeDto.getModelId(),
+                tireChangeDto.getTireIndex(),
+                tireChangeDto.getMileage());
+        truckTirePairingRepository.save(newRecord);
         return "success";
     }
 }

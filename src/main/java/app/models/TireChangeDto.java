@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 public class TireChangeDto {
     private Integer driverId;
     private Integer mileage;
-    private Integer vendorId;
+    private Integer tireIndex;
     private Integer brandId;
     private Integer modelId;
     private String vin;
@@ -19,8 +19,8 @@ public class TireChangeDto {
         return mileage;
     }
 
-    public Integer getVendorId() {
-        return vendorId;
+    public Integer getTireIndex() {
+        return tireIndex;
     }
 
     public Integer getBrandId() {
