@@ -7,7 +7,7 @@ import app.service.WriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "https://tire-tracker-app.herokuapp.com/")
+@CrossOrigin(origins = "https://tire-tracker-app.herokuapp.com")
 @RestController
 @RequestMapping("/")
 public class TireController{
