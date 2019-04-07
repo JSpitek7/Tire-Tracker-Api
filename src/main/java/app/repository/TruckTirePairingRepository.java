@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TruckTirePairingRepository extends JpaRepository<TruckTirePairing, Integer> {
+    TruckTirePairing getTruckTirePairingByTruckIdAndAndTirePositionIndex(Integer truckId, Integer tirePositionIndex);
 }

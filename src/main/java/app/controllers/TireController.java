@@ -1,7 +1,5 @@
 package app.controllers;
-import app.domain.*;
-import app.models.EmployeeDto;
-import app.models.TireChangeDto;
+import app.models.*;
 import app.service.ReadService;
 import app.service.WriteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,31 +27,39 @@ public class TireController{
         return readService.login(username,password);
     }
 
-    @GetMapping("tire/vendors")
-    public @ResponseBody Iterable<TireVendor> getTireVendors() {
-        return readService.findAllTireVendors();
+    @GetMapping("/tires")
+    public @ResponseBody Iterable<TireDto> getTires() {
+        return readService.getAllTires();
     }
 
-    @GetMapping("tire/brands")
-    public @ResponseBody Iterable<TireBrand> getTireBrands() {
-        return readService.findAllTireBrands();
-    }
-
-    @GetMapping("tire/brands/{brandId}/models")
-    public @ResponseBody Iterable<TireModel> getTireModels(@PathVariable Integer brandId) {
-        return readService.findTireModelsByBrandId(brandId);
-    }
-
-    @PostMapping("tire/changeTire")
+    @PostMapping("tires/changeTire")
     public @ResponseBody String addTireChange(@RequestHeader(value="Content-Type") String contentType,
                                               @RequestBody TireChangeDto tireChangeDto) {
-        return writeService.changeTire(tireChangeDto);
+        if (tireChangeDto.validate()) {
+            String response = writeService.changeTire(tireChangeDto);
+            System.out.println("The status of the write attempt is: " + response);
+            return response;
+        } else {
+            System.out.println("One or more fields are null");
+            return "One or more fields are null.";
+        }
     }
 
-    @PostMapping("truck/add")
-    public @ResponseBody String addTruck(@RequestHeader(value="Content-Type") String contentType,
-                                         @RequestBody TireChangeDto tireChangeDto) {
+    @GetMapping("/trucks")
+    public @ResponseBody Iterable<TruckDto> getTrucks() {
+        return readService.getAllTrucks();
+    }
 
-        return "success";
+    @PostMapping("trucks/add")
+    public @ResponseBody String addTruck(@RequestHeader(value="Content-Type") String contentType,
+                                         @RequestBody AddTruckDto addTruckDto) {
+        if (addTruckDto.validate()) {
+            String response = writeService.addTruck(addTruckDto);
+            System.out.println("The status of the write attempt is: " + response);
+            return response;
+        } else {
+            System.out.println("One or more fields are null");
+            return ("One or more fields are null");
+        }
     }
 }

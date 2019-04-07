@@ -2,11 +2,14 @@ package app.service.implementation;
 
 import app.domain.*;
 import app.models.EmployeeDto;
+import app.models.TireDto;
+import app.models.TruckDto;
 import app.repository.*;
 import app.service.ReadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -43,31 +46,44 @@ public class ReadServiceImpl implements ReadService {
         this.truckTirePairingRepository = truckTirePairingRepository;
     }
 
-    public Iterable<Employee> findAllEmployees() {
-        return employeeRepository.findAll();
-    }
-
-    public Iterable<EmployeeType> findAllEmployeeTypes() {
-        return employeeTypeRepository.findAll();
-    }
-
-    public Iterable<TireBrand> findAllTireBrands() {return tireBrandRepository.findAll();}
-    public Iterable<TireModel> findAllTireModels() {return tireModelRepository.findAll();}
-    public Iterable<TireVendor> findAllTireVendors() {return tireVendorRepository.findAll();}
-    public Iterable<Truck> findAllTrucks() {return truckRepository.findAll();}
-    public Iterable<TruckBrand> findAllTruckBrands() {return truckBrandRepository.findAll();}
-    public Iterable<TruckModel> findAllTruckModels() {return truckModelRepository.findAll();}
-    public Iterable<TruckTirePairing> findAllTruckTirePairings() {return truckTirePairingRepository.findAll();}
-
     public EmployeeDto login(String username, String password) {
         Optional<Employee> employeeRecord = employeeRepository.findByEmpUsernameAndEmpPassword(username, password);
-        Employee employee = employeeRecord.get();
-        Optional<EmployeeType> empTypeRecord =  employeeTypeRepository.findByEmpTypeId(employee.getEmpTypeId());
-        EmployeeType empType = empTypeRecord.get();
-        String name = employee.getEmpFName() + " " + employee.getEmpLName();
-        EmployeeDto employeeDto = new EmployeeDto(employee.getEmpId(),name,employee.getEmpPhoneNum(),
-                employee.getEmpEmail(), empType.getEmpTypeTitle());
-        return employeeDto;
+        if (employeeRecord.isPresent()) {
+            Employee employee = employeeRecord.get();
+            Optional<EmployeeType> empTypeRecord = employeeTypeRepository.findByEmpTypeId(employee.getEmpTypeId());
+            EmployeeType empType = empTypeRecord.get();
+            String name = employee.getEmpFName() + " " + employee.getEmpLName();
+            EmployeeDto employeeDto = new EmployeeDto(employee.getEmpId(), name, employee.getEmpPhoneNum(),
+                    employee.getEmpEmail(), empType.getEmpTypeTitle());
+            return employeeDto;
+        } else return new EmployeeDto(false);
+    }
+
+    public Iterable<TireDto> getAllTires() {
+        ArrayList<TireDto> tireDtos = new ArrayList<>();
+        tireModelRepository.findAll().forEach(tire -> {
+            tireDtos.add(new TireDto(
+                    tire.getTireModelId(),
+                    String.format("%s %s",
+                            tireBrandRepository.findById(tire.getTireBrandId()).get().getTireBrandName(),
+                            tire.getTireModelName())
+            ));
+        });
+        return tireDtos;
+
+    }
+
+    public Iterable<TruckDto> getAllTrucks() {
+        ArrayList<TruckDto> truckDtos = new ArrayList<>();
+        truckModelRepository.findAll().forEach(truck -> {
+            truckDtos.add(new TruckDto(
+                    truck.getTruckModelId(),
+                    String.format("%s %s",
+                            truckBrandRepository.findById(truck.getTruckBrandId()).get().getTruckBrandName(),
+                            truck.getTruckModelName())
+            ));
+        });
+        return truckDtos;
     }
 
     public Iterable<TireModel> findTireModelsByBrandId(Integer brandId) {
