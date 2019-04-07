@@ -17,21 +17,20 @@ public class TireModel {
     private Integer tireVendorId;
     @Column(name="Tire_Model_Name")
     private String tireModelName;
-    @Column(name="Tire_Price")
-    private Integer tirePrice;
-    @Column(name="Tire_Tread_Depth")
-    private Integer tireTreadDepth;
-    @Column(name="Tire_Total_Miles_Driven")
-    private Integer tireTotalMilesDriven;
-    @Column(name="Tire_Total_Number_Used")
-    private Integer tireTotalNumberUsed;
-    @Column(name="Tire_Weight_LBS")
-    private Integer tireTotalWeightLbs;
+    @Column(name="Tire_Model_Tread_Depth")
+    private Integer tireModelTreadDepth;
+    @Column(name="Tire_Model_Total_Miles_Driven")
+    private Integer tireModelTotalMilesDriven;
+    @Column(name="Tire_Model_Weight_LBS")
+    private Integer tireModelTotalWeightLbs;
+
     public Integer getTireModelId() {
         return tireModelId;
     }
 
-    public Integer getTireBrandId() {return tireBrandId;}
+    public Integer getTireBrandId() {
+        return tireBrandId;
+    }
 
     public Integer getTireVendorId() {
         return tireVendorId;
@@ -41,23 +40,15 @@ public class TireModel {
         return tireModelName;
     }
 
-    public Integer getTirePrice() {
-        return tirePrice;
+    public Integer getTireModelTreadDepth() {
+        return tireModelTreadDepth;
     }
 
-    public Integer getTireTreadDepth() {
-        return tireTreadDepth;
+    public Integer getTireModelTotalMilesDriven() {
+        return tireModelTotalMilesDriven;
     }
 
-    public Integer getTireTotalMilesDriven() {
-        return tireTotalMilesDriven;
-    }
-
-    public Integer getTireTotalNumberUsed() {
-        return tireTotalNumberUsed;
-    }
-
-    public Integer getTireTotalWeightLbs() {
-        return tireTotalWeightLbs;
+    public Integer getTireModelTotalWeightLbs() {
+        return tireModelTotalWeightLbs;
     }
 }

@@ -1,51 +1,34 @@
 package app.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="Truck_Tire_Pairing")
 public class TruckTirePairing {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="TT_Pairing_ID")
-    private Integer truckTypePairingId;
+    private Integer truckTirePairingId;
     @Column(name="Truck_ID")
     private Integer truckId;
-    @Column(name="Tire_Model_ID")
-    private Integer tireModelId;
+    @Column(name="Tire_ID")
+    private Integer tireId;
     @Column(name="Tire_Position_Index")
     private Integer tirePositionIndex;
-    @Column(name="Truck_Mileage_At_Install")
-    private Integer truckMileageAtInstall;
 
-    public TruckTirePairing(){};
-    public TruckTirePairing(Integer truckTypePairingId, Integer truckId, Integer tireModelId, Integer tirePositionIndex, Integer truckMileageAtInstall) {
-        this.truckTypePairingId = truckTypePairingId;
+    public Integer getTruckTirePairingId() {
+        return this.truckTirePairingId;
+    }
+
+    public void setTireId(Integer tireId) {
+        this.tireId = tireId;
+    }
+
+    public TruckTirePairing() {}
+
+    public TruckTirePairing(Integer truckId, Integer tireId, Integer tirePositionIndex) {
         this.truckId = truckId;
-        this.tireModelId = tireModelId;
+        this.tireId = tireId;
         this.tirePositionIndex = tirePositionIndex;
-        this.truckMileageAtInstall = truckMileageAtInstall;
-    }
-
-    public Integer getTruckTypePairingId() {
-        return truckTypePairingId;
-    }
-
-    public Integer getTruckId() {
-        return truckId;
-    }
-
-    public Integer getTireModelId() {
-        return tireModelId;
-    }
-
-    public Integer getTirePositionIndex() {
-        return tirePositionIndex;
-    }
-
-    public Integer getTruckMileageAtInstall() {
-        return truckMileageAtInstall;
     }
 }
