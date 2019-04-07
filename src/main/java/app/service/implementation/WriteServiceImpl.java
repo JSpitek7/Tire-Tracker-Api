@@ -42,19 +42,33 @@ public class WriteServiceImpl implements WriteService {
     }
 
     public String changeTire(TireChangeDto tireChangeDto) {
-        Optional<Truck> truck = truckRepository.findByTruckLicensePlateNumber(tireChangeDto.getLicensePlate());
-        if(truck.isPresent()) {
+        Optional<Truck> truckRecord = truckRepository.findByTruckLicensePlateNumber(tireChangeDto.getLicensePlate());
+        if(truckRecord.isPresent()) {
+            Truck truck = truckRecord.get();
             Tire tire = tireRepository.save(new Tire(tireChangeDto.getModelId(),
                     randomString(10),
                     tireChangeDto.getMileage(),
                     1));
-            TruckTirePairing truckTirePairingChange = truckTirePairingRepository.getOne(
-                    truckTirePairingRepository.getTruckTirePairingByTruckIdAndAndTirePositionIndex(
-                            truck.get().getTruckId(),
-                            tireChangeDto.getTireIndex()).getTruckTirePairingId()
-            );
-            truckTirePairingChange.setTireId(tire.getTireId());
-            truckTirePairingRepository.save(truckTirePairingChange);
+            Optional<TruckTirePairing> truckTirePairingRecord = truckTirePairingRepository
+                    .getTruckTirePairingByTruckIdAndAndTirePositionIndex(
+                            truck.getTruckId(),
+                            tireChangeDto.getTireIndex()
+                    );
+            if(truckTirePairingRecord.isPresent()) {
+                TruckTirePairing truckTirePairing = truckTirePairingRecord.get();
+                TruckTirePairing truckTirePairingChange = truckTirePairingRepository.getOne(
+                        truckTirePairing.getTruckTirePairingId()
+                );
+                truckTirePairingChange.setTireId(tire.getTireId());
+                truckTirePairingRepository.save(truckTirePairingChange);
+            } else {
+                TruckTirePairing newTruckTirePairing = new TruckTirePairing(
+                        truck.getTruckId(),
+                        tire.getTireId(),
+                        tireChangeDto.getTireIndex()
+                );
+                truckTirePairingRepository.save(newTruckTirePairing);
+            }
             return "success";
         } else return "truck does not exist";
     }
