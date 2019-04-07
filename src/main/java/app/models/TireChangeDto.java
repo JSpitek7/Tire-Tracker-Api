@@ -7,9 +7,8 @@ public class TireChangeDto {
     private Integer driverId;
     private Integer mileage;
     private Integer tireIndex;
-    private Integer brandId;
     private Integer modelId;
-    private String vin;
+    private String licensePlate;
 
     public Integer getDriverId() {
         return driverId;
@@ -23,15 +22,20 @@ public class TireChangeDto {
         return tireIndex;
     }
 
-    public Integer getBrandId() {
-        return brandId;
-    }
-
     public Integer getModelId() {
         return modelId;
     }
 
-    public String getVin() {
-        return vin;
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+
+    public boolean validate() {
+        if (this.driverId == null) return false;
+        if (this.mileage == null) return false;
+        if (this.tireIndex == null) return false;
+        if (this.modelId == null) return false;
+        if (this.licensePlate == null) return false;
+        else return true;
     }
 }

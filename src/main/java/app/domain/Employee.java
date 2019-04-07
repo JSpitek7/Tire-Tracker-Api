@@ -26,14 +26,46 @@ public class Employee {
     private String empUsername;
     @Column (name="Emp_Password")
     private String empPassword;
+    @Column (name="Emp_Address_ID")
+    private String empAddressId;
 
-    public Integer getEmpId() {return this.empId;}
-    public Integer getEmpTypeId() {return this.empTypeId;}
-    public String getEmpFName() {return this.empFName;}
-    public String getEmpMName() {return this.empMName;}
-    public String getEmpLName() {return this.empLName;}
-    public String getEmpPhoneNum() {return this.empPhoneNum;}
-    public String getEmpEmail() {return this.empEmail;}
-    public String getEmpUsername() {return this.empUsername;}
-    public String getEmpPassword() {return this.empPassword;}
+    public Integer getEmpId() {
+        return empId;
+    }
+
+    public Integer getEmpTypeId() {
+        return empTypeId;
+    }
+
+    public String getEmpFName() {
+        return empFName;
+    }
+
+    public String getEmpMName() {
+        return empMName;
+    }
+
+    public String getEmpLName() {
+        return empLName;
+    }
+
+    public String getEmpPhoneNum() {
+        return empPhoneNum;
+    }
+
+    public String getEmpEmail() {
+        return empEmail;
+    }
+
+    public String getEmpUsername() {
+        return empUsername;
+    }
+
+    public String getEmpPassword() {
+        return empPassword;
+    }
+
+    public String getEmpAddressId() {
+        return empAddressId;
+    }
 }
