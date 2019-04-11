@@ -1,10 +1,13 @@
 package app.service.implementation;
 
 import app.domain.Tire;
+import app.domain.TirePurchase;
 import app.domain.Truck;
 import app.domain.TruckTirePairing;
 import app.models.AddTruckDto;
+import app.models.PurchaseTireDto;
 import app.models.TireChangeDto;
+import app.repository.TirePurchaseRepository;
 import app.repository.TireRepository;
 import app.repository.TruckRepository;
 import app.repository.TruckTirePairingRepository;
@@ -18,14 +21,17 @@ import java.util.Optional;
 @Service
 public class WriteServiceImpl implements WriteService {
 
+    private TirePurchaseRepository tirePurchaseRepository;
     private TireRepository tireRepository;
     private TruckRepository truckRepository;
     private TruckTirePairingRepository truckTirePairingRepository;
 
     @Autowired
-    WriteServiceImpl(TireRepository tireRepository,
+    WriteServiceImpl(TirePurchaseRepository tirePurchaseRepository,
+                     TireRepository tireRepository,
                      TruckRepository truckRepository,
                      TruckTirePairingRepository truckTirePairingRepository) {
+        this.tirePurchaseRepository = tirePurchaseRepository;
         this.tireRepository = tireRepository;
         this.truckRepository = truckRepository;
         this.truckTirePairingRepository = truckTirePairingRepository;
@@ -45,10 +51,7 @@ public class WriteServiceImpl implements WriteService {
         Optional<Truck> truckRecord = truckRepository.findByTruckLicensePlateNumber(tireChangeDto.getLicensePlate());
         if(truckRecord.isPresent()) {
             Truck truck = truckRecord.get();
-            Tire tire = tireRepository.save(new Tire(tireChangeDto.getModelId(),
-                    randomString(10),
-                    tireChangeDto.getMileage(),
-                    1));
+            Tire tire = tireRepository.findDistinctFirstByTireModelIdAndTireStatusId(tireChangeDto.getModelId(),8);
             Optional<TruckTirePairing> truckTirePairingRecord = truckTirePairingRepository
                     .getTruckTirePairingByTruckIdAndAndTirePositionIndex(
                             truck.getTruckId(),
@@ -77,17 +80,35 @@ public class WriteServiceImpl implements WriteService {
         if(truckRepository.findByTruckLicensePlateNumber(addTruckDto.getTruckLicensePlate()).isPresent()){
             return "Failed to add new truck: Truck already exists";
         }
-        Truck truck = truckRepository.save(new Truck(addTruckDto.getEmpId(),
-                addTruckDto.getTruckModelId(), addTruckDto.getTruckLicensePlate()));
+        Truck truck = truckRepository.save(new Truck(
+                addTruckDto.getEmpId(),
+                addTruckDto.getTruckModelId(),
+                addTruckDto.getTruckLicensePlate(),
+                1));
         addTruckDto.getTruckTireDtoList().forEach(truckTire -> {
-            Tire tire = tireRepository.save(new Tire(truckTire.getTireModelId(),
-                    randomString(10),
-                    0,
-                    1));
+            Tire tire = tireRepository.findDistinctFirstByTireModelIdAndTireStatusId(truckTire.getTireModelId(), 8);
             truckTirePairingRepository.save(new TruckTirePairing(truck.getTruckId(),
                     tire.getTireId(),
                     truckTire.getTirePositionIndex()));
         });
+        return "success";
+    }
+
+    public String purchaseTire(PurchaseTireDto purchaseTireDto) {
+        TirePurchase tirePurchase = tirePurchaseRepository.save(new TirePurchase(
+                purchaseTireDto.getTireVendorId(),
+                purchaseTireDto.getTirePurchaseQuantity(),
+                purchaseTireDto.getTirePurchasePricePerUnit()));
+        Integer tireQuantityCounter;
+        for (tireQuantityCounter = 1; tireQuantityCounter <= purchaseTireDto.getTirePurchaseQuantity(); tireQuantityCounter++) {
+            tireRepository.save(new Tire(
+                    purchaseTireDto.getTireModelId(),
+                    randomString(10),
+                    0,
+                    8,
+                    tirePurchase.getTirePurchaseId()
+            ));
+        }
         return "success";
     }
 }

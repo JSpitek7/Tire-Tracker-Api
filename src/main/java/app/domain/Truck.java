@@ -15,13 +15,16 @@ public class Truck {
     private Integer truckModelId;
     @Column(name="Truck_License_Plate_Number")
     private String truckLicensePlateNumber;
+    @Column(name="Truck_Tire_Layout_ID")
+    private Integer truckTireLayoutId;
 
     public Truck() {}
 
-    public Truck(Integer truckDriverEmpId, Integer truckModelId, String truckLicensePlateNumber) {
+    public Truck(Integer truckDriverEmpId, Integer truckModelId, String truckLicensePlateNumber, Integer truckTireLayoutId) {
         this.truckDriverEmpId = truckDriverEmpId;
         this.truckModelId = truckModelId;
         this.truckLicensePlateNumber = truckLicensePlateNumber;
+        this.truckTireLayoutId = truckTireLayoutId;
     }
 
     public Integer getTruckId() {
@@ -39,4 +42,6 @@ public class Truck {
     public String getTruckLicensePlateNumber() {
         return truckLicensePlateNumber;
     }
+
+    public Integer getTruckTireLayoutId() { return this.truckTireLayoutId;}
 }

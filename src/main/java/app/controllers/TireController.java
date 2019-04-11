@@ -1,4 +1,5 @@
 package app.controllers;
+import app.domain.TireVendor;
 import app.models.*;
 import app.service.ReadService;
 import app.service.WriteService;
@@ -32,6 +33,9 @@ public class TireController{
         return readService.getAllTires();
     }
 
+    @GetMapping("/tires/inStock")
+    public @ResponseBody Iterable<TireDto> getTiresInStock() {return readService.getAllTiresInStock();}
+
     @PostMapping("tires/changeTire")
     public @ResponseBody String addTireChange(@RequestHeader(value="Content-Type") String contentType,
                                               @RequestBody TireChangeDto tireChangeDto) {
@@ -42,6 +46,16 @@ public class TireController{
         } else {
             System.out.println("One or more fields are null");
             return "One or more fields are null.";
+        }
+    }
+
+    @PostMapping("tires/purchaseTires")
+    public @ResponseBody String purchaseTires(@RequestHeader(value="Content-Type") String contentType,
+                                              @RequestBody PurchaseTireDto purchaseTireDto) {
+        if (purchaseTireDto.validate()) {
+            return writeService.purchaseTire(purchaseTireDto);
+        } else {
+            return "Failure: One or more fields are null.";
         }
     }
 
@@ -62,4 +76,7 @@ public class TireController{
             return ("One or more fields are null");
         }
     }
+
+    @GetMapping("/vendors")
+    public @ResponseBody Iterable<TireVendor> getVendors() { return readService.getAllVendors();}
 }

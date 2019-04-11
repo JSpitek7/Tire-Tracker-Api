@@ -24,6 +24,7 @@ public class ReadServiceImpl implements ReadService {
     private TruckBrandRepository truckBrandRepository;
     private TruckModelRepository truckModelRepository;
     private TruckTirePairingRepository truckTirePairingRepository;
+    private TireRepository tireRepository;
 
     @Autowired
     public ReadServiceImpl(EmployeeRepository employeeRepository,
@@ -34,7 +35,8 @@ public class ReadServiceImpl implements ReadService {
                            TruckRepository truckRepository,
                            TruckBrandRepository truckBrandRepository,
                            TruckModelRepository truckModelRepository,
-                           TruckTirePairingRepository truckTirePairingRepository) {
+                           TruckTirePairingRepository truckTirePairingRepository,
+                           TireRepository tireRepository) {
         this.employeeRepository = employeeRepository;
         this.employeeTypeRepository = employeeTypeRepository;
         this.tireBrandRepository = tireBrandRepository;
@@ -44,6 +46,7 @@ public class ReadServiceImpl implements ReadService {
         this.truckBrandRepository = truckBrandRepository;
         this.truckModelRepository = truckModelRepository;
         this.truckTirePairingRepository = truckTirePairingRepository;
+        this.tireRepository = tireRepository;
     }
 
     public EmployeeDto login(String username, String password) {
@@ -73,6 +76,20 @@ public class ReadServiceImpl implements ReadService {
 
     }
 
+    public Iterable<TireDto> getAllTiresInStock() {
+        ArrayList<TireDto> tireDtos = new ArrayList<>();
+        tireRepository.findInStockTireModelIds().forEach(modelId -> {
+            TireModel tireModel = tireModelRepository.findById(modelId).get();
+            tireDtos.add(new TireDto(
+                    modelId,
+                    String.format("%s %s",
+                            tireBrandRepository.findById(tireModel.getTireBrandId()).get().getTireBrandName(),
+                            tireModel.getTireModelName())
+            ));
+        });
+        return tireDtos;
+    }
+
     public Iterable<TruckDto> getAllTrucks() {
         ArrayList<TruckDto> truckDtos = new ArrayList<>();
         truckModelRepository.findAll().forEach(truck -> {
@@ -86,7 +103,7 @@ public class ReadServiceImpl implements ReadService {
         return truckDtos;
     }
 
-    public Iterable<TireModel> findTireModelsByBrandId(Integer brandId) {
-        return tireModelRepository.findAllByTireBrandId(brandId);
+    public Iterable<TireVendor> getAllVendors() {
+        return tireVendorRepository.findAll();
     }
 }
