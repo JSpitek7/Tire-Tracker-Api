@@ -9,5 +9,5 @@ import java.util.List;
 public interface TireRepository extends JpaRepository<Tire, Integer> {
     @Query("select distinct tire.tireModelId from #{#entityName} tire where tire.tireStatusId = 8")
     Iterable<Integer> findInStockTireModelIds();
-    Tire findDistinctFirstByTireModelIdAndTireStatusId(Integer tireModelId, Integer tireStatusId);
+    Tire getDistinctFirstByTireModelIdAndTireStatusId(Integer tireModelId, Integer tireStatusId);
 }

@@ -51,23 +51,27 @@ public class WriteServiceImpl implements WriteService {
         Optional<Truck> truckRecord = truckRepository.findByTruckLicensePlateNumber(tireChangeDto.getLicensePlate());
         if(truckRecord.isPresent()) {
             Truck truck = truckRecord.get();
-            Tire tire = tireRepository.findDistinctFirstByTireModelIdAndTireStatusId(tireChangeDto.getModelId(),8);
+            Tire newTire = tireRepository.getDistinctFirstByTireModelIdAndTireStatusId(tireChangeDto.getModelId(),8);
+            newTire.setTruckMileageAtInstall(tireChangeDto.getMileage());
+            newTire.setTireStatusId(1);
+            tireRepository.save(newTire);
             Optional<TruckTirePairing> truckTirePairingRecord = truckTirePairingRepository
                     .getTruckTirePairingByTruckIdAndAndTirePositionIndex(
                             truck.getTruckId(),
                             tireChangeDto.getTireIndex()
                     );
             if(truckTirePairingRecord.isPresent()) {
-                TruckTirePairing truckTirePairing = truckTirePairingRecord.get();
-                TruckTirePairing truckTirePairingChange = truckTirePairingRepository.getOne(
-                        truckTirePairing.getTruckTirePairingId()
-                );
-                truckTirePairingChange.setTireId(tire.getTireId());
+                TruckTirePairing truckTirePairingChange = truckTirePairingRecord.get();
+                Tire oldTire = tireRepository.getOne(truckTirePairingChange.getTireId());
+                oldTire.setTruckMileageAtRemoval(tireChangeDto.getMileage());
+                oldTire.setTireStatusId(4);
+                tireRepository.save(oldTire);
+                truckTirePairingChange.setTireId(newTire.getTireId());
                 truckTirePairingRepository.save(truckTirePairingChange);
             } else {
                 TruckTirePairing newTruckTirePairing = new TruckTirePairing(
                         truck.getTruckId(),
-                        tire.getTireId(),
+                        newTire.getTireId(),
                         tireChangeDto.getTireIndex()
                 );
                 truckTirePairingRepository.save(newTruckTirePairing);
@@ -86,7 +90,10 @@ public class WriteServiceImpl implements WriteService {
                 addTruckDto.getTruckLicensePlate(),
                 1));
         addTruckDto.getTruckTireDtoList().forEach(truckTire -> {
-            Tire tire = tireRepository.findDistinctFirstByTireModelIdAndTireStatusId(truckTire.getTireModelId(), 8);
+            Tire tire = tireRepository.getDistinctFirstByTireModelIdAndTireStatusId(truckTire.getTireModelId(), 8);
+            tire.setTruckMileageAtInstall(addTruckDto.getTruckMileage());
+            tire.setTireStatusId(1);
+            //tireRepository.save(tire);
             truckTirePairingRepository.save(new TruckTirePairing(truck.getTruckId(),
                     tire.getTireId(),
                     truckTire.getTirePositionIndex()));
@@ -104,7 +111,8 @@ public class WriteServiceImpl implements WriteService {
             tireRepository.save(new Tire(
                     purchaseTireDto.getTireModelId(),
                     randomString(10),
-                    0,
+                    null,
+                    null,
                     8,
                     tirePurchase.getTirePurchaseId()
             ));

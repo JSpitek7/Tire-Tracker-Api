@@ -1,4 +1,5 @@
 package app.controllers;
+import app.domain.TirePurchase;
 import app.domain.TireVendor;
 import app.models.*;
 import app.service.ReadService;

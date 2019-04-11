@@ -1,7 +1,7 @@
 package app.domain;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="tire_purchase")
@@ -16,9 +16,8 @@ public class TirePurchase {
     private Integer tirePurchaseQuantity;
     @Column(name="Tire_Purchase_Price_Per_Unit")
     private Double tirePurchasePricePerUnit;
-    @GeneratedValue
     @Column(name="Tire_Purchase_Date")
-    private Date tirePurchaseDate;
+    private LocalDateTime tirePurchaseDate;
 
     public Integer getTirePurchaseId() {
         return this.tirePurchaseId;
@@ -28,5 +27,6 @@ public class TirePurchase {
         this.tireVendorId = tireVendorId;
         this.tirePurchaseQuantity = tirePurchaseQuantity;
         this.tirePurchasePricePerUnit = tirePurchasePricePerUnit;
+        this.tirePurchaseDate = LocalDateTime.now();
     }
 }
