@@ -19,7 +19,7 @@ public class TruckTirePairing {
     public Integer getTruckTirePairingId() {
         return this.truckTirePairingId;
     }
-    public Integer getTireId() { return this.truckId;}
+    public Integer getTireId() { return this.tireId;}
 
     public void setTireId(Integer tireId) {
         this.tireId = tireId;
