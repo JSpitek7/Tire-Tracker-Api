@@ -55,7 +55,7 @@ public class WriteServiceImpl implements WriteService {
             Tire newTire = tireRepository.getOne(newTireRecord.getTireId());
             newTire.setTruckMileageAtInstall(tireChangeDto.getMileage());
             newTire.setTireStatusId(1);
-            //tireRepository.save(newTire);
+            tireRepository.save(newTire);
             Optional<TruckTirePairing> truckTirePairingRecord = truckTirePairingRepository
                     .findTruckTirePairingByTruckIdAndAndTirePositionIndex(
                             truck.getTruckId(),
@@ -66,7 +66,7 @@ public class WriteServiceImpl implements WriteService {
                 Tire oldTire = tireRepository.getOne(truckTirePairingChange.getTireId());
                 oldTire.setTruckMileageAtRemoval(tireChangeDto.getMileage());
                 oldTire.setTireStatusId(4);
-                //tireRepository.save(oldTire);
+                tireRepository.save(oldTire);
                 truckTirePairingChange.setTireId(newTire.getTireId());
                 truckTirePairingRepository.save(truckTirePairingChange);
             } else {
