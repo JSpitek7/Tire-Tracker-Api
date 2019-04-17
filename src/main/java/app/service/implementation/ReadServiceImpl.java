@@ -4,6 +4,7 @@ import app.domain.*;
 import app.models.EmployeeDto;
 import app.models.TireDto;
 import app.models.TruckDto;
+import app.models.TruckTypeDto;
 import app.repository.*;
 import app.service.ReadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,14 @@ public class ReadServiceImpl implements ReadService {
         } else return new EmployeeDto(false);
     }
 
+    public Iterable<TruckDto> getTrucksByEmpId(Integer empId) {
+        ArrayList<TruckDto> truckDtos = new ArrayList<>();
+        truckRepository.findAllByTruckDriverEmpId(empId).forEach(truck ->
+            truckDtos.add(new TruckDto(truck.getTruckId(),truck.getTruckLicensePlateNumber()))
+        );
+        return truckDtos;
+    }
+
     public Iterable<TireDto> getAllTires() {
         ArrayList<TireDto> tireDtos = new ArrayList<>();
         tireModelRepository.findAll().forEach(tire -> {
@@ -90,17 +99,17 @@ public class ReadServiceImpl implements ReadService {
         return tireDtos;
     }
 
-    public Iterable<TruckDto> getAllTrucks() {
-        ArrayList<TruckDto> truckDtos = new ArrayList<>();
+    public Iterable<TruckTypeDto> getAllTrucks() {
+        ArrayList<TruckTypeDto> truckTypeDtos = new ArrayList<>();
         truckModelRepository.findAll().forEach(truck -> {
-            truckDtos.add(new TruckDto(
+            truckTypeDtos.add(new TruckTypeDto(
                     truck.getTruckModelId(),
                     String.format("%s %s",
                             truckBrandRepository.findById(truck.getTruckBrandId()).get().getTruckBrandName(),
                             truck.getTruckModelName())
             ));
         });
-        return truckDtos;
+        return truckTypeDtos;
     }
 
     public Iterable<TireVendor> getAllVendors() {

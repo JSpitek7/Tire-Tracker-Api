@@ -1,5 +1,4 @@
 package app.controllers;
-import app.domain.TirePurchase;
 import app.domain.TireVendor;
 import app.models.*;
 import app.service.ReadService;
@@ -61,8 +60,13 @@ public class TireController{
     }
 
     @GetMapping("/trucks")
-    public @ResponseBody Iterable<TruckDto> getTrucks() {
+    public @ResponseBody Iterable<TruckTypeDto> getTrucks() {
         return readService.getAllTrucks();
+    }
+
+    @GetMapping("/trucks/tracked/{empId}")
+    public @ResponseBody Iterable<TruckDto> getEmployeeTrucks(@PathVariable Integer empId) {
+        return readService.getTrucksByEmpId(empId);
     }
 
     @PostMapping("trucks/add")

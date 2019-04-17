@@ -48,7 +48,7 @@ public class WriteServiceImpl implements WriteService {
     }
 
     public String changeTire(TireChangeDto tireChangeDto) {
-        Optional<Truck> truckRecord = truckRepository.findByTruckLicensePlateNumber(tireChangeDto.getLicensePlate());
+        Optional<Truck> truckRecord = truckRepository.findById(tireChangeDto.getTruckId());
         if(truckRecord.isPresent()) {
             Truck truck = truckRecord.get();
             Tire newTireRecord = tireRepository.findFirstByTireModelIdAndTireStatusId(tireChangeDto.getModelId(),8);
