@@ -4,14 +4,13 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize
 public class TireChangeDto {
-    private Integer driverId;
+    private Integer truckId;
     private Integer mileage;
     private Integer tireIndex;
     private Integer modelId;
-    private String licensePlate;
 
-    public Integer getDriverId() {
-        return driverId;
+    public Integer getTruckId() {
+        return truckId;
     }
 
     public Integer getMileage() {
@@ -26,16 +25,11 @@ public class TireChangeDto {
         return modelId;
     }
 
-    public String getLicensePlate() {
-        return licensePlate;
-    }
-
     public boolean validate() {
-        if (this.driverId == null) return false;
+        if (this.truckId == null) return false;
         if (this.mileage == null) return false;
         if (this.tireIndex == null) return false;
         if (this.modelId == null) return false;
-        if (this.licensePlate == null) return false;
         else return true;
     }
 }

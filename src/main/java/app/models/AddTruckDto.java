@@ -9,20 +9,19 @@ public class AddTruckDto {
     private Integer empId;
     private String truckLicensePlate;
     private Integer truckModelId;
+    private Integer truckMileage;
     private List<TruckTireDto> truckTireDtoList;
 
     public Integer getEmpId() {
         return empId;
     }
-
     public String getTruckLicensePlate() {
         return truckLicensePlate;
     }
-
     public Integer getTruckModelId() {
         return truckModelId;
     }
-
+    public Integer getTruckMileage() { return truckMileage;}
     public List<TruckTireDto> getTruckTireDtoList() {
         return truckTireDtoList;
     }
