@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface TruckTirePairingRepository extends JpaRepository<TruckTirePairing, Integer> {
-    Optional<TruckTirePairing> getTruckTirePairingByTruckIdAndAndTirePositionIndex(Integer truckId, Integer tirePositionIndex);
+    Optional<TruckTirePairing> findTruckTirePairingByTruckIdAndAndTirePositionIndex(Integer truckId, Integer tirePositionIndex);
 }

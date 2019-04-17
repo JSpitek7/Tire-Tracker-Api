@@ -9,5 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface TruckRepository extends JpaRepository<Truck, Integer>{
+    Iterable<Truck> findAllByTruckDriverEmpId(Integer empId);
     Optional<Truck> findByTruckLicensePlateNumber(String licensePlateNumber);
 }

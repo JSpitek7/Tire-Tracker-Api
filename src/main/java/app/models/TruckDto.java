@@ -4,27 +4,19 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonSerialize
 public class TruckDto {
-    private Integer id;
-    private String name;
+    private Integer truckId;
+    private String truckLicensePlate;
 
-    public TruckDto(Integer id, String name) {
-        this.id = id;
-        this.name = name;
+    public TruckDto(Integer truckId, String truckLicensePlate) {
+        this.truckId = truckId;
+        this.truckLicensePlate = truckLicensePlate;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getTruckId() {
+        return truckId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public String getTruckLicensePlate() {
+        return truckLicensePlate;
     }
 }

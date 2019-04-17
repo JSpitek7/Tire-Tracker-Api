@@ -1,9 +1,6 @@
 package app.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="Tire_Model")
@@ -13,8 +10,6 @@ public class TireModel {
     private Integer tireModelId;
     @Column(name="Tire_Brand_ID")
     private Integer tireBrandId;
-    @Column(name="Tire_Vendor_ID")
-    private Integer tireVendorId;
     @Column(name="Tire_Model_Name")
     private String tireModelName;
     @Column(name="Tire_Model_Tread_Depth")
@@ -30,10 +25,6 @@ public class TireModel {
 
     public Integer getTireBrandId() {
         return tireBrandId;
-    }
-
-    public Integer getTireVendorId() {
-        return tireVendorId;
     }
 
     public String getTireModelName() {
