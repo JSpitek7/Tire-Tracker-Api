@@ -1,5 +1,6 @@
 package app.service;
 
+import app.domain.TireStatus;
 import app.domain.TireVendor;
 import app.models.EmployeeDto;
 import app.models.TireDto;
@@ -14,4 +15,5 @@ public interface ReadService {
     Iterable<TireDto> getAllTiresInStock();
     Iterable<TireVendor> getAllVendors();
     Iterable<TruckDto> getTrucksByEmpId(Integer empId);
+    Iterable<TireStatus> getTireDeathStatuses();
 }

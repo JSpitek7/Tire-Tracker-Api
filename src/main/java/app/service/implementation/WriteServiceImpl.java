@@ -65,7 +65,7 @@ public class WriteServiceImpl implements WriteService {
                 TruckTirePairing truckTirePairingChange = truckTirePairingRecord.get();
                 Tire oldTire = tireRepository.getOne(truckTirePairingChange.getTireId());
                 oldTire.setTruckMileageAtRemoval(tireChangeDto.getMileage());
-                oldTire.setTireStatusId(4);
+                oldTire.setTireStatusId(tireChangeDto.getOldTireStatusId());
                 tireRepository.save(oldTire);
                 truckTirePairingChange.setTireId(newTire.getTireId());
                 truckTirePairingRepository.save(truckTirePairingChange);

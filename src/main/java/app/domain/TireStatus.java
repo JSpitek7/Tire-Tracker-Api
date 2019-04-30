@@ -13,4 +13,12 @@ public class TireStatus {
     private Integer tireStatusId;
     @Column(name="Tire_Status_Description")
     private String tireStatusDescription;
+
+    public Integer getTireStatusId() {
+        return tireStatusId;
+    }
+
+    public String getTireStatusDescription() {
+        return tireStatusDescription;
+    }
 }

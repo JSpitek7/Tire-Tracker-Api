@@ -26,6 +26,7 @@ public class ReadServiceImpl implements ReadService {
     private TruckModelRepository truckModelRepository;
     private TruckTirePairingRepository truckTirePairingRepository;
     private TireRepository tireRepository;
+    private TireStatusRepository tireStatusRepository;
 
     @Autowired
     public ReadServiceImpl(EmployeeRepository employeeRepository,
@@ -37,7 +38,8 @@ public class ReadServiceImpl implements ReadService {
                            TruckBrandRepository truckBrandRepository,
                            TruckModelRepository truckModelRepository,
                            TruckTirePairingRepository truckTirePairingRepository,
-                           TireRepository tireRepository) {
+                           TireRepository tireRepository,
+                           TireStatusRepository tireStatusRepository) {
         this.employeeRepository = employeeRepository;
         this.employeeTypeRepository = employeeTypeRepository;
         this.tireBrandRepository = tireBrandRepository;
@@ -48,6 +50,7 @@ public class ReadServiceImpl implements ReadService {
         this.truckModelRepository = truckModelRepository;
         this.truckTirePairingRepository = truckTirePairingRepository;
         this.tireRepository = tireRepository;
+        this.tireStatusRepository = tireStatusRepository;
     }
 
     public EmployeeDto login(String username, String password) {
@@ -115,4 +118,6 @@ public class ReadServiceImpl implements ReadService {
     public Iterable<TireVendor> getAllVendors() {
         return tireVendorRepository.findAll();
     }
+
+    public Iterable<TireStatus> getTireDeathStatuses() {return tireStatusRepository.findAllByTireStatusIdBetween(2,7);}
 }
