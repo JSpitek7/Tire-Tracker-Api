@@ -1,4 +1,5 @@
 package app.controllers;
+import app.domain.TireStatus;
 import app.domain.TireVendor;
 import app.models.*;
 import app.service.ReadService;
@@ -35,6 +36,9 @@ public class TireController{
 
     @GetMapping("/tires/inStock")
     public @ResponseBody Iterable<TireDto> getTiresInStock() {return readService.getAllTiresInStock();}
+
+    @GetMapping("/tires/status")
+    public @ResponseBody Iterable<TireStatus> getTireDeathStatuses() {return readService.getTireDeathStatuses();}
 
     @PostMapping("tires/changeTire")
     public @ResponseBody String addTireChange(@RequestHeader(value="Content-Type") String contentType,
